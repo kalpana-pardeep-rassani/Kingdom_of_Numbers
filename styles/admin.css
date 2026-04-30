@@ -1,0 +1,215 @@
+body {
+    margin: 0;
+    font-family: "Segoe UI", Tahoma, sans-serif;
+    background: linear-gradient(180deg, #f5f8fb 0%, #edf3f8 100%);
+    color: #142c45;
+}
+
+#adminApp {
+    min-height: 100vh;
+    padding: 24px;
+}
+
+.admin-shell {
+    max-width: 1320px;
+    margin: 0 auto;
+}
+
+.admin-login-card,
+.admin-panel,
+.admin-stat,
+.admin-detail-card,
+.admin-world-card {
+    background: #fff;
+    border: 1px solid #d9e3ec;
+    border-radius: 18px;
+    box-shadow: 0 16px 40px rgba(24, 50, 75, 0.08);
+}
+
+.admin-login-card {
+    max-width: 520px;
+    margin: 48px auto;
+    padding: 32px;
+}
+
+.admin-chip {
+    display: inline-block;
+    background: #eef5ff;
+    color: #1f5d9a;
+    border-radius: 999px;
+    padding: 8px 12px;
+    font-size: 13px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+}
+
+.admin-form {
+    display: grid;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+.admin-form input,
+.admin-filter-bar input,
+.admin-filter-bar select,
+.admin-form button,
+.admin-actions button,
+.admin-header button,
+.admin-filter-bar button {
+    border-radius: 12px;
+    font-size: 15px;
+}
+
+.admin-form input,
+.admin-filter-bar input,
+.admin-filter-bar select {
+    border: 1px solid #ccd8e5;
+    padding: 12px 14px;
+}
+
+.admin-form button,
+.admin-actions button,
+.admin-header button,
+.admin-filter-bar button {
+    border: none;
+    background: #2f6fb4;
+    color: #fff;
+    padding: 12px 16px;
+    cursor: pointer;
+}
+
+.admin-actions .danger {
+    background: #c94848;
+}
+
+.admin-helper,
+.admin-subtitle,
+.admin-empty {
+    color: #485a70;
+}
+
+.admin-error {
+    color: #a12f2f;
+}
+
+.admin-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 22px;
+}
+
+.admin-summary-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 16px;
+    margin-bottom: 18px;
+}
+
+.admin-stat {
+    padding: 18px;
+}
+
+.admin-stat span,
+.admin-detail-card span,
+.admin-world-card span {
+    display: block;
+    color: #485a70;
+    font-size: 14px;
+}
+
+.admin-stat strong,
+.admin-detail-card strong {
+    display: block;
+    font-size: 28px;
+    margin-top: 6px;
+}
+
+.admin-filter-bar {
+    display: grid;
+    grid-template-columns: 2fr 1fr 1fr auto;
+    gap: 12px;
+    margin-bottom: 18px;
+}
+
+.admin-layout {
+    display: grid;
+    grid-template-columns: 1.05fr 1.2fr;
+    gap: 18px;
+}
+
+.admin-panel {
+    padding: 20px;
+}
+
+.admin-user-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 14px;
+}
+
+.admin-user-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    border: 1px solid #d9e3ec;
+    background: #f8fbfe;
+    border-radius: 14px;
+    padding: 14px;
+    cursor: pointer;
+    text-align: left;
+}
+
+.admin-user-row.active {
+    border-color: #2f6fb4;
+    background: #eef5ff;
+}
+
+.admin-detail-grid,
+.admin-world-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 12px;
+    margin: 16px 0 20px;
+}
+
+.admin-detail-card,
+.admin-world-card {
+    padding: 14px;
+}
+
+.admin-activity-list {
+    display: grid;
+    gap: 10px;
+    margin-top: 12px;
+}
+
+.admin-activity-row {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #e3ebf2;
+    padding-bottom: 8px;
+}
+
+.admin-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 20px;
+}
+
+@media (max-width: 980px) {
+    .admin-summary-grid,
+    .admin-layout,
+    .admin-detail-grid,
+    .admin-world-grid,
+    .admin-filter-bar {
+        grid-template-columns: 1fr;
+    }
+
+    .admin-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 12px;
+    }
+}

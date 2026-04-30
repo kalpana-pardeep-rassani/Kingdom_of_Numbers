@@ -1,0 +1,423 @@
+/* ========================================
+   KINGDOM OF NUMBERS - RESPONSIVE
+   Mobile, Tablet, Desktop breakpoints
+   ======================================== */
+
+/* ============= MOBILE (< 600px) ============= */
+@media (max-width: 599px) {
+    /* Typography */
+    h1 { font-size: 28px; }
+    h2 { font-size: 22px; }
+    h3 { font-size: 18px; }
+    p { font-size: 15px; }
+    
+    /* Layout */
+    .page-body,
+    .scene-main {
+        padding: var(--spacing-md);
+    }
+
+    .auth-layout,
+    .hero-banner,
+    .content-grid-two,
+    .quest-board-grid,
+    .world-adventure-grid,
+    .stats-grid,
+    .diagnostic-grid,
+    .profile-summary-list {
+        grid-template-columns: 1fr;
+    }
+
+    .auth-story-title {
+        font-size: 38px;
+    }
+
+    .kingdom-nav {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .kingdom-nav-links,
+    .kingdom-nav-user,
+    .game-stage-metrics,
+    .loop-list,
+    .answer-grid {
+        grid-template-columns: 1fr;
+        flex-direction: column;
+        min-width: 0;
+        width: 100%;
+    }
+
+    .kingdom-nav-user,
+    .action-bar-center,
+    .dialogue-grid,
+    .quest-actions,
+    .hero-cta-row,
+    .auth-character-row,
+    .auth-story-points,
+    .badge-row,
+    .achievement-unlock-strip,
+    .world-progress-list,
+    .audio-control-cluster,
+    .world-reward-strip,
+    .mission-strip,
+    .reward-celebration-strip {
+        flex-direction: column;
+    }
+
+    .journey-path {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    .danger-zone-card,
+    .game-stage-header,
+    .focus-play-header,
+    .focus-story-head,
+    .result-stage-hero,
+    .world-adventure-top,
+    .world-progress-card-top,
+    .world-meter-head,
+    .topic-meter-head,
+    .profile-summary-item {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hero-banner-art {
+        justify-content: flex-start;
+    }
+
+    .focus-play-stats,
+    .focus-story-tags,
+    .question-sidekick-line {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .question-focus-card h2 {
+        font-size: 28px;
+    }
+
+    .kingdom-nav-focus-label {
+        width: 100%;
+    }
+    
+    /* Grid */
+    .grid-2, .grid-3, .grid-4 {
+        grid-template-columns: 1fr;
+    }
+    
+    /* Navbar */
+    .navbar {
+        height: auto;
+        flex-wrap: wrap;
+    }
+    
+    .navbar-menu {
+        order: 3;
+        width: 100%;
+        margin: 0;
+        padding: var(--spacing-md);
+        flex-direction: column;
+        gap: var(--spacing-md);
+        background: var(--color-light-gray);
+        display: none;
+    }
+    
+    .navbar-menu.active {
+        display: flex;
+    }
+    
+    .navbar-item {
+        padding: var(--spacing-sm);
+    }
+    
+    .navbar-button {
+        width: 100%;
+    }
+    
+    /* Buttons */
+    .btn {
+        width: 100%;
+        min-height: 44px;
+        font-size: 15px;
+    }
+    
+    .btn-large {
+        width: 100%;
+    }
+    
+    /* Cards */
+    .card {
+        padding: var(--spacing-md);
+    }
+    
+    /* Login */
+    .login-card {
+        padding: var(--spacing-lg);
+    }
+    
+    .login-title {
+        font-size: 24px;
+    }
+    
+    /* Dashboard */
+    .hero-banner,
+    .auth-story-card,
+    .auth-card,
+    .story-card,
+    .quest-panel,
+    .world-adventure-card,
+    .result-stage,
+    .game-stage,
+    .danger-zone-card {
+        padding: 20px;
+        border-radius: 24px;
+    }
+    
+    /* World cards */
+    .world-adventure-grid,
+    .diagnostic-grid,
+    .achievement-grid {
+        gap: var(--spacing-md);
+    }
+    
+    /* Game */
+    .answer-button {
+        padding: var(--spacing-md);
+        font-size: 14px;
+    }
+    
+    /* Progress */
+    .result-metrics-row {
+        flex-direction: column;
+    }
+    
+    /* Stats box */
+    .stat-adventure-card strong {
+        font-size: 26px;
+    }
+    
+    /* Character box */
+    .hero-avatar-orb {
+        width: 88px;
+        height: 88px;
+        font-size: 42px;
+    }
+
+    .audio-chip {
+        width: 100%;
+        text-align: center;
+    }
+
+    .theme-toggle {
+        width: 100%;
+        justify-content: center;
+    }
+
+    .auth-theme-bar {
+        position: static;
+        display: flex;
+        justify-content: flex-end;
+        padding: 20px 20px 0;
+    }
+    
+    /* Modal */
+    .modal-dialog {
+        width: 95%;
+        max-height: 95vh;
+    }
+    
+    .modal-header {
+        padding: var(--spacing-md);
+    }
+    
+    .modal-body {
+        padding: var(--spacing-md);
+    }
+    
+    .modal-footer {
+        padding: var(--spacing-md);
+        flex-direction: column;
+    }
+    
+    .modal-footer .btn {
+        width: 100%;
+    }
+    
+    /* Progress bar */
+    .progress {
+        height: 6px;
+        margin: var(--spacing-md) 0;
+    }
+    
+    /* Flex */
+    .flex-between {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+}
+
+/* ============= TABLET (600px - 1024px) ============= */
+@media (min-width: 600px) and (max-width: 1024px) {
+    /* Grid */
+    .grid-2 {
+        grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .grid-3, .grid-4,
+    .stats-grid,
+    .world-adventure-grid,
+    .diagnostic-grid,
+    .content-grid-two,
+    .quest-board-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .hero-banner,
+    .auth-layout {
+        grid-template-columns: 1fr;
+    }
+
+    .journey-path {
+        grid-template-columns: repeat(3, minmax(0, 1fr));
+    }
+
+    .game-stage-header,
+    .focus-play-header,
+    .danger-zone-card {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .focus-play-stats,
+    .focus-story-tags {
+        width: 100%;
+    }
+}
+
+/* ============= DESKTOP (> 1024px) ============= */
+@media (min-width: 1025px) {
+    /* Keep default layout */
+}
+
+/* ============= SMALL SCREENS (< 360px) ============= */
+@media (max-width: 359px) {
+    :root {
+        --spacing-md: 12px;
+        --spacing-lg: 16px;
+    }
+    
+    .btn {
+        padding: 8px 12px;
+        font-size: 13px;
+    }
+    
+    .card {
+        padding: var(--spacing-md);
+    }
+    
+    h1 { font-size: 22px; }
+    h2 { font-size: 18px; }
+    h3 { font-size: 16px; }
+}
+
+/* ============= LANDSCAPE MODE ============= */
+@media (orientation: landscape) and (max-height: 600px) {
+    .page-body {
+        padding: var(--spacing-md);
+    }
+    
+    .game-body {
+        padding: var(--spacing-md);
+    }
+    
+    .game-answers {
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    }
+}
+
+/* ============= TOUCH DEVICE OPTIMIZATIONS ============= */
+@media (hover: none) and (pointer: coarse) {
+    /* Increase touch targets */
+    .btn {
+        min-height: 48px;
+    }
+    
+    .answer-button {
+        padding: 16px;
+        font-size: 16px;
+        min-height: 56px;
+    }
+    
+    .card {
+        padding: var(--spacing-lg);
+    }
+    
+    /* Remove hover effects (use active instead) */
+    .btn:hover {
+        transform: none;
+    }
+    
+    .card:hover {
+        border-color: transparent;
+    }
+    
+    /* Add active state */
+    .btn:active {
+        transform: scale(0.98);
+    }
+    
+    .card:active {
+        box-shadow: var(--shadow-lg);
+    }
+}
+
+/* ============= HIGH DPI SCREENS ============= */
+@media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+    body {
+        -webkit-font-smoothing: antialiased;
+        -moz-osx-font-smoothing: grayscale;
+    }
+}
+
+/* ============= DARK MODE (if supported) ============= */
+@media (prefers-color-scheme: dark) {
+    /* Keep light theme for this app (kids prefer bright colors) */
+    /* Can be customized later */
+}
+
+/* ============= REDUCED MOTION ============= */
+@media (prefers-reduced-motion: reduce) {
+    * {
+        animation-duration: 0.01ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.01ms !important;
+    }
+}
+
+/* ============= PRINT STYLES ============= */
+@media print {
+    * {
+        background: transparent !important;
+        color: black !important;
+        text-shadow: none !important;
+        box-shadow: none !important;
+    }
+    
+    a, a:visited {
+        text-decoration: underline;
+    }
+    
+    a[href]::after {
+        content: " (" attr(href) ")";
+    }
+    
+    img {
+        max-width: 100% !important;
+    }
+    
+    @page {
+        margin: 0.5cm;
+    }
+}

@@ -1,0 +1,398 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>The Kingdom of Numbers</title>
+  <style>
+    :root {
+      --paper: #fffdfa;
+      --ink: #18324b;
+      --muted: #5b6f7f;
+      --line: #dbe3ea;
+      --blue: #2f6fb4;
+      --green: #2f8d62;
+      --gold: #d98b2b;
+      --peach: #f8efe2;
+      --sky: #eef5fb;
+      --mint: #eef8f1;
+      --shadow: 0 20px 50px rgba(24, 50, 75, 0.10);
+    }
+
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: Georgia, "Trebuchet MS", "Segoe UI", sans-serif;
+      color: var(--ink);
+      background: radial-gradient(circle at top right, rgba(47, 111, 180, 0.12), transparent 22%), radial-gradient(circle at bottom left, rgba(47, 141, 98, 0.10), transparent 24%), linear-gradient(180deg, #f8fbfd 0%, #f3f7fa 100%);
+    }
+    main {
+      width: min(1180px, 100%);
+      margin: 0 auto;
+      padding: 26px 18px 64px;
+    }
+    .slide {
+      min-height: 700px;
+      background: var(--paper);
+      border: 1px solid var(--line);
+      border-radius: 26px;
+      box-shadow: var(--shadow);
+      padding: 38px 42px;
+      margin-bottom: 28px;
+      page-break-after: always;
+      break-after: page;
+      position: relative;
+      overflow: hidden;
+    }
+    .slide::before {
+      content: "";
+      position: absolute;
+      inset: 0 0 auto 0;
+      height: 10px;
+      background: linear-gradient(90deg, var(--blue), var(--green), var(--gold));
+    }
+    .title-slide {
+      background: radial-gradient(circle at 85% 18%, rgba(47, 111, 180, 0.10), transparent 22%), radial-gradient(circle at 15% 85%, rgba(47, 141, 98, 0.12), transparent 26%), linear-gradient(180deg, #fffdfa 0%, #fffaf4 100%);
+      display: grid;
+      grid-template-columns: 1.15fr 0.85fr;
+      gap: 24px;
+      align-items: center;
+    }
+    .eyebrow {
+      display: inline-block;
+      font-size: 14px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: var(--blue);
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+    h1, h2, h3, p { margin: 0; }
+    h1 { font-size: 54px; line-height: 0.98; margin-bottom: 16px; }
+    h2 { font-size: 34px; margin-bottom: 14px; }
+    h3 { font-size: 20px; margin-bottom: 10px; }
+    p, li, td, th {
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      font-size: 18px;
+      line-height: 1.45;
+    }
+    .muted { color: var(--muted); }
+    .details {
+      display: grid;
+      gap: 10px;
+      margin-top: 26px;
+      max-width: 460px;
+    }
+    .detail {
+      display: grid;
+      grid-template-columns: 140px 1fr;
+      gap: 14px;
+      padding: 12px 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(255, 255, 255, 0.78);
+    }
+    .world-orbs {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 18px;
+    }
+    .orb {
+      aspect-ratio: 1;
+      border-radius: 24px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--line);
+      font-size: 44px;
+      background: linear-gradient(180deg, #ffffff, #f7fbff);
+    }
+    .grid-2 {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 22px;
+      align-items: start;
+    }
+    .grid-4 {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 16px;
+    }
+    .panel {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 18px 20px;
+      background: #fff;
+    }
+    .soft-blue { background: var(--sky); }
+    .soft-green { background: var(--mint); }
+    .soft-peach { background: var(--peach); }
+    .flow {
+      display: grid;
+      grid-template-columns: repeat(5, 1fr);
+      gap: 12px;
+      margin-top: 24px;
+    }
+    .flow-step {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px 14px;
+      background: #fff;
+      min-height: 154px;
+    }
+    .step-number {
+      width: 36px;
+      height: 36px;
+      border-radius: 999px;
+      display: inline-grid;
+      place-items: center;
+      background: var(--ink);
+      color: #fff;
+      font-family: "Segoe UI", Tahoma, sans-serif;
+      font-weight: 700;
+      margin-bottom: 12px;
+    }
+    .image-card img {
+      width: 100%;
+      display: block;
+      border-radius: 16px;
+      border: 1px solid var(--line);
+    }
+    .world-card {
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      padding: 18px;
+      background: #fff;
+      min-height: 230px;
+    }
+    .world-icon { font-size: 34px; margin-bottom: 10px; }
+    .check-list {
+      list-style: none;
+      padding: 0;
+      margin: 16px 0 0;
+      display: grid;
+      gap: 10px;
+    }
+    .check-list li::before {
+      content: "•";
+      color: var(--green);
+      font-weight: 700;
+      display: inline-block;
+      width: 16px;
+    }
+    .metric-row {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 14px;
+      margin-top: 18px;
+    }
+    .metric {
+      border: 1px solid var(--line);
+      border-radius: 18px;
+      padding: 16px 18px;
+      background: #fff;
+    }
+    .metric strong {
+      display: block;
+      font-size: 28px;
+      margin-bottom: 4px;
+      color: var(--blue);
+    }
+    .stack-list {
+      display: grid;
+      gap: 12px;
+      margin-top: 14px;
+    }
+    .stack-item {
+      padding: 14px 16px;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      background: #fff;
+    }
+    .footer-tag {
+      position: absolute;
+      right: 28px;
+      bottom: 22px;
+      font-size: 14px;
+      color: var(--muted);
+      font-family: "Segoe UI", Tahoma, sans-serif;
+    }
+    @media print {
+      @page { size: A4 landscape; margin: 10mm; }
+      body { background: #fff; }
+      main { width: auto; margin: 0; padding: 0; }
+      .slide { margin: 0; border-radius: 0; box-shadow: none; min-height: 0; }
+    }
+  </style>
+</head>
+<body>
+  <main>
+    <section class="slide title-slide">
+      <div>
+        <span class="eyebrow">Presentation Deck</span>
+        <h1>The Kingdom of Numbers</h1>
+        <p class="muted">A clean, story-based math learning app for Grade 6-8 students</p>
+        <div class="details">
+          <div class="detail"><strong>By</strong><span>Kalpana Pardeep</span></div>
+          <div class="detail"><strong>Course Name</strong><span>Vibe Coding &amp; AI Agents</span></div>
+          <div class="detail"><strong>Instructor</strong><span>Zeeshan Saleem</span></div>
+        </div>
+      </div>
+      <div class="world-orbs">
+        <div class="orb">🏝️</div>
+        <div class="orb">🌲</div>
+        <div class="orb">📚</div>
+        <div class="orb">🏛️</div>
+      </div>
+      <div class="footer-tag">Slide 1</div>
+    </section>
+
+    <section class="slide">
+      <span class="eyebrow">Slide 2</span>
+      <h2>The Idea</h2>
+      <div class="grid-2" style="margin-top: 18px;">
+        <div class="panel soft-peach">
+          <h3>The challenge</h3>
+          <ul class="check-list">
+            <li>Math practice can feel repetitive.</li>
+            <li>Students often do not get a learning path that fits them.</li>
+            <li>Progress is not always easy to see.</li>
+          </ul>
+        </div>
+        <div class="panel soft-green">
+          <h3>The response</h3>
+          <ul class="check-list">
+            <li>Turn practice into short game missions.</li>
+            <li>Use story, feedback, and progress tracking.</li>
+            <li>Keep the math clear and syllabus-based.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-tag">Slide 2</div>
+    </section>
+
+    <section class="slide">
+      <span class="eyebrow">Slide 3</span>
+      <h2>How the App Works</h2>
+      <div class="flow">
+        <article class="flow-step"><div class="step-number">1</div><h3>Sign In</h3><p>Create an account or continue where you left off.</p></article>
+        <article class="flow-step"><div class="step-number">2</div><h3>Diagnostic</h3><p>Answer 10 questions from key math topics.</p></article>
+        <article class="flow-step"><div class="step-number">3</div><h3>Recommendations</h3><p>Get a suggested world order based on weak areas.</p></article>
+        <article class="flow-step"><div class="step-number">4</div><h3>Play</h3><p>Solve short story-based levels with instant feedback.</p></article>
+        <article class="flow-step"><div class="step-number">5</div><h3>Track Growth</h3><p>See progress, XP, stars, and achievements.</p></article>
+      </div>
+      <div class="footer-tag">Slide 3</div>
+    </section>
+
+    <section class="slide">
+      <span class="eyebrow">Slide 4</span>
+      <h2>Smart Start with Diagnostic</h2>
+      <div class="grid-2" style="margin-top: 18px;">
+        <div class="panel soft-blue">
+          <h3>Why it matters</h3>
+          <ul class="check-list">
+            <li>Checks integers, fractions, algebra, and geometry.</li>
+            <li>Shows strong and weak topics clearly.</li>
+            <li>Recommends where the student should begin.</li>
+          </ul>
+        </div>
+        <figure class="panel image-card">
+          <img src="assets/presentation/world-map.png" alt="World map and recommendation screen">
+        </figure>
+      </div>
+      <div class="footer-tag">Slide 4</div>
+    </section>
+
+    <section class="slide">
+      <span class="eyebrow">Slide 5</span>
+      <h2>The Four Learning Worlds</h2>
+      <div class="grid-4" style="margin-top: 18px;">
+        <article class="world-card"><div class="world-icon">🏝️</div><h3>Integers Island</h3><p>Number line thinking, gains, losses, and signed operations.</p></article>
+        <article class="world-card"><div class="world-icon">🌲</div><h3>Fractions Forest</h3><p>Fractions, decimals, percentages, and fair sharing.</p></article>
+        <article class="world-card"><div class="world-icon">📚</div><h3>Algebra Academy</h3><p>Expressions, patterns, and simple equations.</p></article>
+        <article class="world-card"><div class="world-icon">🏛️</div><h3>Geometry Garden</h3><p>Shapes, angles, perimeter, area, and measurement.</p></article>
+      </div>
+      <div class="footer-tag">Slide 5</div>
+    </section>
+
+    <section class="slide">
+      <span class="eyebrow">Slide 6</span>
+      <h2>Why It Feels Engaging</h2>
+      <div class="grid-2" style="margin-top: 18px;">
+        <figure class="panel image-card">
+          <img src="assets/presentation/gameplay.png" alt="Gameplay screenshot">
+        </figure>
+        <div class="panel">
+          <ul class="check-list">
+            <li>Questions are wrapped in short story scenarios.</li>
+            <li>Characters guide the student through each world.</li>
+            <li>Every answer gets instant feedback and explanation.</li>
+            <li>XP, stars, streaks, and badges add momentum.</li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-tag">Slide 6</div>
+    </section>
+
+    <section class="slide">
+      <span class="eyebrow">Slide 7</span>
+      <h2>Learning That Stays Visible</h2>
+      <div class="grid-2" style="margin-top: 18px;">
+        <figure class="panel image-card">
+          <img src="assets/presentation/progress.png" alt="Progress screenshot">
+        </figure>
+        <div>
+          <div class="metric-row">
+            <div class="metric"><strong>40</strong><span>world levels</span></div>
+            <div class="metric"><strong>10</strong><span>diagnostic questions</span></div>
+            <div class="metric"><strong>4</strong><span>learning worlds</span></div>
+          </div>
+          <div class="panel" style="margin-top: 16px;">
+            <ul class="check-list">
+              <li>Students can see topic progress clearly.</li>
+              <li>Achievements make effort visible.</li>
+              <li>Saved data means they can return later.</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-tag">Slide 7</div>
+    </section>
+
+    <section class="slide">
+      <span class="eyebrow">Slide 8</span>
+      <h2>Lightweight and Practical</h2>
+      <div class="grid-2" style="margin-top: 18px;">
+        <div class="panel soft-green">
+          <h3>Useful in simple settings</h3>
+          <ul class="check-list">
+            <li>Runs in a browser.</li>
+            <li>No backend server needed.</li>
+            <li>Good for demos, classrooms, and student projects.</li>
+          </ul>
+        </div>
+        <div class="stack-list">
+          <div class="stack-item"><strong>HTML5</strong><br><span class="muted">Page structure</span></div>
+          <div class="stack-item"><strong>CSS3</strong><br><span class="muted">Visual design and responsive layout</span></div>
+          <div class="stack-item"><strong>Vanilla JavaScript</strong><br><span class="muted">App logic and interaction</span></div>
+          <div class="stack-item"><strong>Local Storage</strong><br><span class="muted">Saved progress and profile data</span></div>
+        </div>
+      </div>
+      <div class="footer-tag">Slide 8</div>
+    </section>
+
+    <section class="slide">
+      <span class="eyebrow">Slide 9</span>
+      <h2>Key Takeaway</h2>
+      <div class="panel soft-peach" style="margin-top: 24px; padding: 28px;">
+        <p style="font-size: 24px; line-height: 1.5;">The Kingdom of Numbers turns math practice into a guided adventure that is simple to follow, fun to use, and still clearly connected to real learning goals.</p>
+      </div>
+      <div class="metric-row" style="margin-top: 26px;">
+        <div class="metric"><strong>Clear</strong><span>simple journey</span></div>
+        <div class="metric"><strong>Personal</strong><span>smart recommendations</span></div>
+        <div class="metric"><strong>Engaging</strong><span>story, feedback, progress</span></div>
+      </div>
+      <div class="footer-tag">Slide 9</div>
+    </section>
+  </main>
+</body>
+</html>

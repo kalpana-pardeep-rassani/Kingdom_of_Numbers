@@ -1,0 +1,340 @@
+/* ========================================
+   KINGDOM OF NUMBERS - COMMON STYLES
+   Global colors, fonts, and base elements
+   ======================================== */
+
+/* ============= FONTS & IMPORTS ============= */
+@import url('https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Nunito:wght@400;600;700;800&display=swap');
+
+/* ============= CSS VARIABLES (Colors) ============= */
+:root {
+    /* Primary Brand Colors */
+    --color-primary: #ff7a18;
+    --color-secondary: #2f8cff;
+    --color-accent: #ffe066;
+    --color-danger: #ff5d73;
+    --color-warning: #cc7a18;
+    --color-info: #236fcb;
+    --color-success: #2fbf71;
+    --color-surface: rgba(255, 255, 255, 0.88);
+    --color-surface-strong: #ffffff;
+    --color-deep-navy: #17325c;
+    
+    /* World Colors */
+    --color-integers: #4f9cff;
+    --color-fractions: #37b679;
+    --color-algebra: #ff7cc9;
+    --color-geometry: #ffb347;
+    
+    /* Neutral Colors */
+    --color-white: #FFFFFF;
+    --color-light-gray: #f4f8ff;
+    --color-gray: #52627b;
+    --color-dark-gray: #2d3b59;
+    --color-dark-text: #17325c;
+    
+    /* Semantic Colors */
+    --color-correct: #4CAF50;           /* Green */
+    --color-incorrect: #FF6B6B;         /* Red */
+
+    /* Theme Tokens */
+    --app-bg-start: #fff8de;
+    --app-bg-mid: #eef6ff;
+    --app-bg-end: #e6fff4;
+    --app-glow-warm: rgba(255, 224, 102, 0.85);
+    --app-glow-cool: rgba(79, 156, 255, 0.28);
+    --color-text-primary: #17325c;
+    --color-text-secondary: #52627b;
+    --color-panel-bg: rgba(255, 255, 255, 0.84);
+    --color-panel-solid: #ffffff;
+    --color-panel-border: rgba(79, 156, 255, 0.18);
+    --color-panel-muted: rgba(255, 255, 255, 0.92);
+    --color-panel-soft: rgba(255, 255, 255, 0.78);
+    --color-panel-strong: rgba(255, 255, 255, 0.96);
+    --color-nav-bg: rgba(255, 255, 255, 0.72);
+    --color-nav-border: rgba(79, 156, 255, 0.18);
+    --color-chip-bg: rgba(255, 255, 255, 0.85);
+    --color-chip-border: rgba(79, 156, 255, 0.18);
+    --color-chip-active-bg: rgba(255, 122, 24, 0.14);
+    --color-focus-pill-bg: rgba(255, 224, 102, 0.26);
+    --color-focus-pill-text: #8d5d00;
+    --color-input-bg: #ffffff;
+    --color-input-border: #d5ddeb;
+    --color-input-placeholder: #66758d;
+    --color-scroll-track: #f4f8ff;
+    
+    /* Spacing */
+    --spacing-xs: 4px;
+    --spacing-sm: 8px;
+    --spacing-md: 16px;
+    --spacing-lg: 24px;
+    --spacing-xl: 32px;
+    --spacing-xxl: 48px;
+    
+    /* Shadows */
+    --shadow-sm: 0 10px 24px rgba(42, 84, 156, 0.12);
+    --shadow-md: 0 18px 42px rgba(33, 58, 110, 0.16);
+    --shadow-lg: 0 28px 60px rgba(28, 55, 102, 0.2);
+    
+    /* Border Radius */
+    --radius-sm: 8px;
+    --radius-md: 12px;
+    --radius-lg: 16px;
+    --radius-xl: 25px;
+    
+    /* Transitions */
+    --transition-fast: 0.2s ease-in-out;
+    --transition-normal: 0.3s ease-in-out;
+    --transition-slow: 0.5s ease-in-out;
+}
+
+body[data-theme="dark"] {
+    --color-secondary: #71b6ff;
+    --color-accent: #ffd977;
+    --color-danger: #ff8fa0;
+    --color-warning: #ffbf70;
+    --color-info: #7cb8ff;
+    --color-success: #66d79a;
+    --color-surface: rgba(19, 31, 54, 0.82);
+    --color-surface-strong: #16233d;
+    --color-light-gray: #10203a;
+    --color-gray: #bfd0e7;
+    --color-dark-gray: #d7e4fb;
+    --color-dark-text: #edf4ff;
+    --color-deep-navy: #f6fbff;
+    --app-bg-start: #08111f;
+    --app-bg-mid: #0f1d36;
+    --app-bg-end: #102835;
+    --app-glow-warm: rgba(255, 182, 59, 0.18);
+    --app-glow-cool: rgba(79, 156, 255, 0.16);
+    --color-text-primary: #edf4ff;
+    --color-text-secondary: #d2def0;
+    --color-panel-bg: rgba(21, 34, 58, 0.92);
+    --color-panel-solid: #16233d;
+    --color-panel-border: rgba(162, 196, 255, 0.3);
+    --color-panel-muted: rgba(25, 40, 68, 0.98);
+    --color-panel-soft: rgba(30, 47, 79, 0.9);
+    --color-panel-strong: rgba(24, 39, 67, 0.98);
+    --color-nav-bg: rgba(10, 18, 33, 0.88);
+    --color-nav-border: rgba(162, 196, 255, 0.22);
+    --color-chip-bg: rgba(24, 40, 68, 0.96);
+    --color-chip-border: rgba(162, 196, 255, 0.22);
+    --color-chip-active-bg: rgba(255, 122, 24, 0.18);
+    --color-focus-pill-bg: rgba(255, 224, 102, 0.18);
+    --color-focus-pill-text: #ffe9a3;
+    --color-input-bg: #101c31;
+    --color-input-border: #2a436b;
+    --color-input-placeholder: #abc0dd;
+    --color-scroll-track: #0e1930;
+    --shadow-sm: 0 12px 28px rgba(0, 0, 0, 0.28);
+    --shadow-md: 0 20px 44px rgba(0, 0, 0, 0.32);
+    --shadow-lg: 0 30px 70px rgba(0, 0, 0, 0.38);
+}
+
+body[data-theme="dark"] .kingdom-logo small,
+body[data-theme="dark"] .kingdom-nav-user small {
+    color: var(--color-text-secondary);
+}
+
+body[data-theme="dark"] .recommendation-card,
+body[data-theme="dark"] .world-progress-card,
+body[data-theme="dark"] .world-adventure-card button,
+body[data-theme="dark"] .topic-meter-head span,
+body[data-theme="dark"] .topic-meter-head strong,
+body[data-theme="dark"] .world-meter-head span,
+body[data-theme="dark"] .section-tag,
+body[data-theme="dark"] .hero-chip,
+body[data-theme="dark"] .auth-story-badge {
+    color: var(--color-text-primary);
+}
+
+body[data-theme="dark"] a:hover {
+    color: #9cc8ff;
+}
+
+body[data-theme="dark"] input:focus,
+body[data-theme="dark"] textarea:focus,
+body[data-theme="dark"] select:focus {
+    box-shadow: 0 0 0 3px rgba(124, 184, 255, 0.24);
+}
+
+/* ============= RESET & BASE STYLES ============= */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+    font-family: 'Nunito', Arial, sans-serif;
+    background:
+        radial-gradient(circle at top left, var(--app-glow-warm), transparent 28%),
+        radial-gradient(circle at top right, var(--app-glow-cool), transparent 26%),
+        linear-gradient(180deg, var(--app-bg-start) 0%, var(--app-bg-mid) 48%, var(--app-bg-end) 100%);
+    background-attachment: fixed;
+    color: var(--color-text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    transition: background var(--transition-normal), color var(--transition-fast);
+}
+
+/* ============= TYPOGRAPHY ============= */
+h1 {
+    font-family: 'Fredoka', 'Nunito', sans-serif;
+    font-size: 36px;
+    font-weight: 700;
+    color: var(--color-deep-navy);
+    margin-bottom: var(--spacing-md);
+}
+
+h2 {
+    font-family: 'Fredoka', 'Nunito', sans-serif;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--color-dark-text);
+    margin-bottom: var(--spacing-md);
+}
+
+h3 {
+    font-family: 'Fredoka', 'Nunito', sans-serif;
+    font-size: 22px;
+    font-weight: 600;
+    color: var(--color-dark-text);
+    margin-bottom: var(--spacing-sm);
+}
+
+p {
+    font-size: 16px;
+    font-weight: 400;
+    color: var(--color-text-primary);
+    margin-bottom: var(--spacing-sm);
+    line-height: 1.6;
+}
+
+label {
+    font-size: 14px;
+    font-weight: 500;
+    color: var(--color-dark-text);
+    display: block;
+    margin-bottom: var(--spacing-xs);
+}
+
+.text-small {
+    font-size: 14px;
+    color: var(--color-text-secondary);
+}
+
+.text-center {
+    text-align: center;
+}
+
+.text-success {
+    color: var(--color-success);
+}
+
+.text-danger {
+    color: var(--color-danger);
+}
+
+.text-warning {
+    color: var(--color-warning);
+}
+
+.text-info {
+    color: var(--color-info);
+}
+
+/* ============= LINKS ============= */
+a {
+    color: var(--color-info);
+    text-decoration: none;
+    cursor: pointer;
+    transition: color var(--transition-fast);
+}
+
+a:hover {
+    color: var(--color-primary);
+    text-decoration: underline;
+}
+
+/* ============= FORMS ============= */
+input, textarea, select {
+    font-family: 'Poppins', Arial, sans-serif;
+    font-size: 16px;
+    padding: 12px 16px;
+    border: 2px solid var(--color-input-border);
+    border-radius: var(--radius-md);
+    background-color: var(--color-input-bg);
+    color: var(--color-text-primary);
+    transition: all var(--transition-fast);
+}
+
+input:focus, textarea:focus, select:focus {
+    outline: none;
+    border-color: var(--color-primary);
+    box-shadow: 0 0 0 3px rgba(46, 125, 50, 0.1);
+}
+
+input::placeholder {
+    color: var(--color-input-placeholder);
+    font-style: italic;
+}
+
+/* ============= HELPER CLASSES ============= */
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 0 var(--spacing-md);
+}
+
+.text-muted {
+    color: var(--color-text-secondary);
+}
+
+.mt-sm { margin-top: var(--spacing-sm); }
+.mt-md { margin-top: var(--spacing-md); }
+.mt-lg { margin-top: var(--spacing-lg); }
+.mt-xl { margin-top: var(--spacing-xl); }
+
+.mb-sm { margin-bottom: var(--spacing-sm); }
+.mb-md { margin-bottom: var(--spacing-md); }
+.mb-lg { margin-bottom: var(--spacing-lg); }
+.mb-xl { margin-bottom: var(--spacing-xl); }
+
+.p-sm { padding: var(--spacing-sm); }
+.p-md { padding: var(--spacing-md); }
+.p-lg { padding: var(--spacing-lg); }
+.p-xl { padding: var(--spacing-xl); }
+
+.hidden {
+    display: none !important;
+}
+
+.visible {
+    display: block !important;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+/* ============= SCROLL ============= */
+::-webkit-scrollbar {
+    width: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--color-scroll-track);
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--color-primary);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: #ea6512;
+}
