@@ -3,6 +3,7 @@ const adminDashboard = {
         users: [],
         selectedUser: null,
         analytics: null,
+        mode: 'api',
         filters: {
             q: '',
             grade: '',
@@ -10,8 +11,152 @@ const adminDashboard = {
         }
     },
 
+    localAdminEmail: 'kalpanapardeeprassani@gmail.com',
+    localAdminPassword: 'kp9999',
+
     renderShell: function() {
         document.getElementById('app').innerHTML = '<div class="admin-shell"></div>';
+    },
+
+    isNetworkError: function(error) {
+        return Boolean(error && (error.isNetworkError || error.status === 0));
+    },
+
+    buildLocalAdminUser: function(email) {
+        return {
+            userId: 'local_admin',
+            name: 'Kalpana Pardeep',
+            email: email,
+            class: '-',
+            avatar: 'hero',
+            preferredWorld: 'integers',
+            title: 'Administrator',
+            totalPoints: 0,
+            role: 'admin',
+            status: 'active',
+            joinedDate: null,
+            lastLoginDate: new Date().toISOString(),
+            lastActivityDate: new Date().toISOString()
+        };
+    },
+
+    authenticateLocalAdmin: function(email, password) {
+        const normalizedEmail = String(email || '').trim().toLowerCase();
+        const normalizedPassword = String(password || '');
+        if (normalizedEmail !== this.localAdminEmail || normalizedPassword !== this.localAdminPassword) {
+            throw new Error('Invalid admin email or password.');
+        }
+
+        const adminUser = this.buildLocalAdminUser(normalizedEmail);
+        if (typeof apiClient !== 'undefined') {
+            apiClient.clearToken();
+        }
+        storage.setCurrentUser(adminUser, true);
+        app.appState.currentUser = adminUser;
+        this.state.mode = 'local';
+        return adminUser;
+    },
+
+    getFilteredLocalUsers: function() {
+        const filters = this.state.filters;
+        const query = String(filters.q || '').trim().toLowerCase();
+
+        return storage.getAllUsers()
+            .filter((user) => user.role !== 'admin')
+            .filter((user) => {
+                if (filters.grade && String(user.class || '') !== String(filters.grade)) {
+                    return false;
+                }
+                if (filters.status && String(user.status || 'active') !== filters.status) {
+                    return false;
+                }
+                if (!query) {
+                    return true;
+                }
+
+                const haystack = `${user.name || ''} ${user.email || ''}`.toLowerCase();
+                return haystack.includes(query);
+            })
+            .map((user) => {
+                const stats = storage.getStats(user.userId);
+                return {
+                    id: user.userId,
+                    name: user.name,
+                    email: user.email,
+                    totalScore: stats.totalPoints || user.totalPoints || 0,
+                    lastActiveAt: stats.lastActivityDate || user.lastActivityDate || user.lastLoginDate || user.joinedDate || null,
+                    status: user.status || 'active',
+                    class: user.class || ''
+                };
+            })
+            .sort((left, right) => (right.totalScore || 0) - (left.totalScore || 0));
+    },
+
+    getLocalAnalytics: function(users) {
+        const sevenDaysAgo = Date.now() - (7 * 24 * 60 * 60 * 1000);
+        let activeUsers7d = 0;
+        let totalScore = 0;
+        let totalAccuracy = 0;
+
+        users.forEach((user) => {
+            const stats = storage.getStats(user.id);
+            const lastActivityAt = user.lastActiveAt ? new Date(user.lastActiveAt).getTime() : 0;
+            if (lastActivityAt >= sevenDaysAgo) {
+                activeUsers7d += 1;
+            }
+
+            totalScore += stats.totalPoints || user.totalScore || 0;
+            totalAccuracy += stats.totalQuestionsAnswered
+                ? Math.round(((stats.correctAnswers || 0) / stats.totalQuestionsAnswered) * 100)
+                : 0;
+        });
+
+        return {
+            totalUsers: users.length,
+            activeUsers7d,
+            averageScore: users.length ? Math.round(totalScore / users.length) : 0,
+            averageAccuracy: users.length ? Math.round(totalAccuracy / users.length) : 0
+        };
+    },
+
+    getLocalUserDetail: function(userId) {
+        const user = storage.getUserById(userId);
+        if (!user) {
+            return null;
+        }
+
+        const stats = storage.getStats(userId);
+        const progress = storage.getProgress(userId);
+        const achievements = storage.getAchievements(userId);
+        const diagnosticResults = storage.getDiagnosticResults(userId);
+        const activityHistory = [
+            user.lastLoginDate ? { type: 'login', createdAt: user.lastLoginDate } : null,
+            stats.lastActivityDate ? { type: 'gameplay', createdAt: stats.lastActivityDate } : null,
+            diagnosticResults && diagnosticResults.completedDate ? { type: 'diagnostic_completed', createdAt: diagnosticResults.completedDate } : null
+        ].filter(Boolean).sort((left, right) => new Date(right.createdAt) - new Date(left.createdAt));
+
+        return {
+            user: {
+                userId: user.userId,
+                name: user.name,
+                email: user.email,
+                class: user.class || '-',
+                avatar: user.avatar || 'hero',
+                preferredWorld: user.preferredWorld || 'integers',
+                title: user.title || 'Rookie Hero',
+                totalPoints: stats.totalPoints || user.totalPoints || 0,
+                role: user.role || 'student',
+                status: user.status || 'active',
+                joinedDate: user.joinedDate || null,
+                lastLoginDate: user.lastLoginDate || null,
+                lastActivityDate: stats.lastActivityDate || user.lastActivityDate || null
+            },
+            progress,
+            stats,
+            achievements,
+            diagnosticResults,
+            activityHistory
+        };
     },
 
     renderLogin: function(errorMessage = '') {
@@ -35,10 +180,12 @@ const adminDashboard = {
 
         document.getElementById('adminLoginForm').addEventListener('submit', async (event) => {
             event.preventDefault();
+            const email = document.getElementById('adminEmail').value;
+            const password = document.getElementById('adminPassword').value;
             try {
                 const payload = await apiClient.login({
-                    email: document.getElementById('adminEmail').value,
-                    password: document.getElementById('adminPassword').value
+                    email,
+                    password
                 });
                 if (payload.user.role !== 'admin') {
                     throw new Error('This account is not an admin account.');
@@ -46,9 +193,20 @@ const adminDashboard = {
                 apiClient.setToken(payload.accessToken);
                 storage.hydrateFromServerSnapshot(payload.snapshot);
                 app.appState.currentUser = payload.snapshot.user;
+                this.state.mode = 'api';
                 await this.loadDashboard();
             } catch (error) {
                 storage.logout();
+                if (this.isNetworkError(error)) {
+                    try {
+                        this.authenticateLocalAdmin(email, password);
+                        await this.loadDashboard();
+                        return;
+                    } catch (localError) {
+                        this.renderLogin(localError.message);
+                        return;
+                    }
+                }
                 this.renderLogin(error.message);
             }
         });
@@ -60,10 +218,26 @@ const adminDashboard = {
 
     loadDashboard: async function() {
         this.renderShell();
+        const shouldUseLocalMode = !storage.hasApiSession() && auth.getCurrentUser() && auth.getCurrentUser().role === 'admin';
+
+        if (shouldUseLocalMode) {
+            this.state.mode = 'local';
+            this.state.users = this.getFilteredLocalUsers();
+            this.state.analytics = this.getLocalAnalytics(this.state.users);
+            if (!this.state.selectedUser && this.state.users.length) {
+                this.state.selectedUser = this.getLocalUserDetail(this.state.users[0].id);
+            } else if (this.state.selectedUser) {
+                this.state.selectedUser = this.getLocalUserDetail(this.state.selectedUser.user.userId);
+            }
+            this.renderDashboard();
+            return;
+        }
+
         const [analytics, users] = await Promise.all([
             apiClient.getAdminAnalytics(),
             apiClient.listUsers(this.state.filters)
         ]);
+        this.state.mode = 'api';
         this.state.analytics = analytics;
         this.state.users = users.items;
         if (!this.state.selectedUser && this.state.users.length) {
@@ -146,7 +320,9 @@ const adminDashboard = {
 
         document.querySelectorAll('.admin-user-row').forEach((button) => {
             button.addEventListener('click', async () => {
-                this.state.selectedUser = await apiClient.getUserDetail(button.dataset.userId);
+                this.state.selectedUser = this.state.mode === 'local'
+                    ? this.getLocalUserDetail(button.dataset.userId)
+                    : await apiClient.getUserDetail(button.dataset.userId);
                 this.renderDashboard();
             });
         });
@@ -154,8 +330,15 @@ const adminDashboard = {
         const resetButton = document.getElementById('adminResetProgress');
         if (resetButton) {
             resetButton.addEventListener('click', async () => {
-                await apiClient.resetUserProgress(resetButton.dataset.userId);
-                this.state.selectedUser = await apiClient.getUserDetail(resetButton.dataset.userId);
+                if (this.state.mode === 'local') {
+                    storage.resetUserData(resetButton.dataset.userId);
+                    storage.initializeProgress(resetButton.dataset.userId);
+                    storage.initializeStats(resetButton.dataset.userId);
+                    this.state.selectedUser = this.getLocalUserDetail(resetButton.dataset.userId);
+                } else {
+                    await apiClient.resetUserProgress(resetButton.dataset.userId);
+                    this.state.selectedUser = await apiClient.getUserDetail(resetButton.dataset.userId);
+                }
                 await this.loadDashboard();
             });
         }
@@ -163,7 +346,11 @@ const adminDashboard = {
         const deleteButton = document.getElementById('adminDeleteUser');
         if (deleteButton) {
             deleteButton.addEventListener('click', async () => {
-                await apiClient.deleteUser(deleteButton.dataset.userId);
+                if (this.state.mode === 'local') {
+                    storage.deleteUser(deleteButton.dataset.userId);
+                } else {
+                    await apiClient.deleteUser(deleteButton.dataset.userId);
+                }
                 this.state.selectedUser = null;
                 await this.loadDashboard();
             });

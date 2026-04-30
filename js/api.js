@@ -1,5 +1,15 @@
 const apiClient = {
-    baseUrl: 'http://127.0.0.1:3100/api/v1',
+    getBaseUrl: function() {
+        const { protocol, hostname } = window.location;
+        const resolvedProtocol = protocol === 'https:' ? 'https:' : 'http:';
+        const resolvedHost = hostname || '127.0.0.1';
+        return `${resolvedProtocol}//${resolvedHost}:3100/api/v1`;
+    },
+
+    getApiUrl: function(path) {
+        return `${this.getBaseUrl()}${path}`;
+    },
+
     tokenKey: 'kon_api_token',
     // --- NEW CODE START ---
     getPersistenceStore: function(persist) {
@@ -35,7 +45,7 @@ const apiClient = {
 
         let response;
         try {
-            response = await fetch(`${this.baseUrl}${path}`, {
+            response = await fetch(this.getApiUrl(path), {
                 ...options,
                 headers
             });
@@ -59,7 +69,7 @@ const apiClient = {
     },
 
     isConfigured: function() {
-        return Boolean(this.baseUrl);
+        return Boolean(this.getBaseUrl());
     },
 
     signup: function(data) {
