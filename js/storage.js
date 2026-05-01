@@ -8,6 +8,7 @@ const storage = {
     // Keys
     USERS_KEY: 'kon_users',
     CURRENT_USER_KEY: 'kon_currentUser',
+    LEGACY_CURRENT_USER_KEY: 'currentUser',
     API_TOKEN_KEY: 'kon_api_token',
     THEME_KEY: 'kon_theme',
     PROGRESS_KEY: 'kon_progress',
@@ -117,11 +118,15 @@ const storage = {
             persist = this.getPersistedValueMode(this.CURRENT_USER_KEY);
         }
         this.clearPersistedValue(this.CURRENT_USER_KEY);
-        this.getPersistenceStore(persist).setItem(this.CURRENT_USER_KEY, JSON.stringify(safeUser));
+        this.clearPersistedValue(this.LEGACY_CURRENT_USER_KEY);
+        const persistenceStore = this.getPersistenceStore(persist);
+        const serializedUser = JSON.stringify(safeUser);
+        persistenceStore.setItem(this.CURRENT_USER_KEY, serializedUser);
+        persistenceStore.setItem(this.LEGACY_CURRENT_USER_KEY, serializedUser);
     },
     
     getCurrentUser: function() {
-        const user = this.getPersistedValue(this.CURRENT_USER_KEY);
+        const user = this.getPersistedValue(this.CURRENT_USER_KEY) || this.getPersistedValue(this.LEGACY_CURRENT_USER_KEY);
         return user ? JSON.parse(user) : null;
     },
 
@@ -191,6 +196,7 @@ const storage = {
     
     logout: function() {
         this.clearPersistedValue(this.CURRENT_USER_KEY);
+        this.clearPersistedValue(this.LEGACY_CURRENT_USER_KEY);
         if (typeof apiClient !== 'undefined') {
             apiClient.clearToken();
         }
