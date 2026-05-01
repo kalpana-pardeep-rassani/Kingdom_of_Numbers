@@ -324,10 +324,10 @@ const app = {
         
         auth.signup(formData, (result) => {
             if (result.success) {
-                this.appState.currentUser = result.user;
+                const authenticatedUser = auth.getCurrentUser() || result.user;
+                this.appState.currentUser = authenticatedUser;
                 utils.showNotification('✅ Account created successfully!', 'success');
-                // First time user - go to diagnostic test
-                this.showPage('diagnostic');
+                this.showPage(this.getHomePageForUser(authenticatedUser));
             } else {
                 if (result.errors) {
                     Object.entries(result.errors).forEach(([field, message]) => {
