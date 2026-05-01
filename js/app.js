@@ -240,8 +240,10 @@ const app = {
         
         // Clear previous errors
         this.clearFormErrors();
+        ui.setAuthLoading(true, 'Summoning your hero profile...');
         
         auth.login(email, password, (result) => {
+            ui.setAuthLoading(false);
             if (result.success) {
                 this.appState.currentUser = result.user;
                 utils.showNotification('✅ Login successful!', 'success');
@@ -321,8 +323,10 @@ const app = {
         
         // Clear previous errors
         this.clearFormErrors();
+        ui.setAuthLoading(true, 'Packing your satchel for adventure...');
         
         auth.signup(formData, (result) => {
+            ui.setAuthLoading(false);
             if (result.success) {
                 const authenticatedUser = auth.getCurrentUser() || result.user;
                 this.appState.currentUser = authenticatedUser;

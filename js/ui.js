@@ -161,6 +161,61 @@ const ui = {
         `;
     },
 
+    setAuthLoading: function(isLoading, message = 'Opening the kingdom gates...') {
+        const authCard = document.querySelector('.auth-card');
+        if (!authCard) {
+            return;
+        }
+
+        authCard.classList.toggle('auth-card-loading', Boolean(isLoading));
+
+        authCard.querySelectorAll('input, select, button, a').forEach((element) => {
+            if (element.tagName === 'A') {
+                element.style.pointerEvents = isLoading ? 'none' : '';
+                element.style.opacity = isLoading ? '0.6' : '';
+                return;
+            }
+
+            element.disabled = Boolean(isLoading);
+        });
+
+        const existingOverlay = authCard.querySelector('.auth-loader-overlay');
+        if (!isLoading) {
+            if (existingOverlay) {
+                existingOverlay.remove();
+            }
+            return;
+        }
+
+        if (existingOverlay) {
+            const textNode = existingOverlay.querySelector('.auth-loader-message');
+            if (textNode) {
+                textNode.textContent = message;
+            }
+            return;
+        }
+
+        const overlay = document.createElement('div');
+        overlay.className = 'auth-loader-overlay';
+        overlay.innerHTML = `
+            <div class="auth-loader-card">
+                <div class="auth-loader-characters" aria-hidden="true">
+                    <span class="auth-loader-hero">🦸</span>
+                    <span class="auth-loader-spark">✨</span>
+                    <span class="auth-loader-wizard">🧙‍♂️</span>
+                </div>
+                <h3>One tiny quest moment...</h3>
+                <p class="auth-loader-message">${this.escapeHtml(message)}</p>
+                <div class="auth-loader-dots" aria-hidden="true">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </div>
+        `;
+        authCard.appendChild(overlay);
+    },
+
     renderShell: function(activePage, contentMarkup, options = {}) {
         const user = storage.getCurrentUser();
         const safeName = this.escapeHtml(user ? user.name : 'Hero');
